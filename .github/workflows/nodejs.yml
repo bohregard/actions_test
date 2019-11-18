@@ -23,3 +23,19 @@ jobs:
         npm run build --if-present
       env:
         CI: true
+    - name: upload dist
+      uses: actions/upload-artifact@v1
+      with:
+        name: dist
+        path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish Docker
+      uses: elgohr/Publish-Docker-Github-Action@2.8
+      with:
+        name: bohregard/test-actions
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
